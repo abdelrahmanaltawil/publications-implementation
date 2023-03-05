@@ -8,6 +8,6 @@ This is a repository that record my personal implementation of publications i fo
 The main principle followed in these implementation is portability. Hence **all implementation are written in Jupyter notebook formate**. This will allow for better exchange of knowledge and involvement of the community.
 
 ## List of Implementations
-| DOI | Title | URL | Repo Link | Status |
-| --- | ----- | --- | --------- | ------ |
-|     |       |     |           |        |
+| DOI | Title | URL | Link in Repo | Status |
+| --- | ----- | --- | ------------ | ------ |
+|     |       |     |              |        |
