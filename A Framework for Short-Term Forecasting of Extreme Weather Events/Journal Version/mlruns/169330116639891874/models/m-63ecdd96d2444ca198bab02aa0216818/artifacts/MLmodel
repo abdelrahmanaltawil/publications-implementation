@@ -1,0 +1,31 @@
+artifact_path: /Users/abdelrahmanaltawil/Developer/GitHub/publications-implementation/A
+  Framework for Short-Term Forecasting of Extreme Weather Events/Journal Version/mlruns/169330116639891874/models/m-63ecdd96d2444ca198bab02aa0216818/artifacts
+flavors:
+  python_function:
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.tensorflow
+    python_version: 3.10.8
+  tensorflow:
+    code: null
+    data: data
+    keras_version: 2.9.1
+    model_type: keras
+    save_format: tf
+is_signature_from_type_hint: false
+mlflow_version: 3.1.0
+model_id: m-63ecdd96d2444ca198bab02aa0216818
+model_size_bytes: 383946
+model_uuid: m-63ecdd96d2444ca198bab02aa0216818
+prompts: null
+run_id: bfdbb2cc979e4df0b9760a7f6232e815
+signature:
+  inputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1, 24,
+    1]}}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1,
+    4]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-06-12 14:18:38.944892'

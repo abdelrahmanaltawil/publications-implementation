@@ -1,0 +1,14 @@
+artifact_uri: ./mlruns/365512184354000040/67381194b2724fc9a87120ad3a4dcaa2/artifacts
+end_time: 1749742539346
+entry_point_name: ''
+experiment_id: '365512184354000040'
+lifecycle_stage: active
+run_id: 67381194b2724fc9a87120ad3a4dcaa2
+run_name: enthused-jay-647
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749742530924
+status: 3
+tags: []
+user_id: abdelrahmanaltawil

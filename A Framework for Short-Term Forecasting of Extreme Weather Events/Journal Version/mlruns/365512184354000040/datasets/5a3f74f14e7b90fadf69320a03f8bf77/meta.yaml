@@ -1,0 +1,8 @@
+digest: 6eee857c
+name: dataset
+profile: '{"features_shape": [24, 24], "features_size": 576, "features_nbytes": 4608}'
+schema: '{"mlflow_tensorspec": {"features": "[{\"type\": \"tensor\", \"tensor-spec\":
+  {\"dtype\": \"int64\", \"shape\": [-1, 24]}}]", "targets": null}}'
+source: '{"tags": {"mlflow.user": "abdelrahmanaltawil", "mlflow.source.name": "/Users/abdelrahmanaltawil/miniforge3/envs/py310_env/lib/python3.10/site-packages/ipykernel_launcher.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code

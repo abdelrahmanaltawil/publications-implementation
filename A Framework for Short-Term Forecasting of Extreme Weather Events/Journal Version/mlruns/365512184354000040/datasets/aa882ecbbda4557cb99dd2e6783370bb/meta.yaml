@@ -1,0 +1,10 @@
+digest: 2e4c4b34
+name: dataset
+profile: '{"features_shape": [70072, 24], "features_size": 1681728, "features_nbytes":
+  13453824, "targets_shape": [70072], "targets_size": 70072, "targets_nbytes": 560576}'
+schema: '{"mlflow_tensorspec": {"features": "[{\"type\": \"tensor\", \"tensor-spec\":
+  {\"dtype\": \"int64\", \"shape\": [-1, 24]}}]", "targets": "[{\"type\": \"tensor\",
+  \"tensor-spec\": {\"dtype\": \"int64\", \"shape\": [-1]}}]"}}'
+source: '{"tags": {"mlflow.user": "abdelrahmanaltawil", "mlflow.source.name": "/Users/abdelrahmanaltawil/miniforge3/envs/py310_env/lib/python3.10/site-packages/ipykernel_launcher.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code

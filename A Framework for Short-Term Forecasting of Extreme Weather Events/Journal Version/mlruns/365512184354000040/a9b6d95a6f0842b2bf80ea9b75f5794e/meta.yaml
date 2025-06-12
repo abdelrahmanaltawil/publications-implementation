@@ -1,0 +1,16 @@
+artifact_uri: ./mlruns/365512184354000040/a9b6d95a6f0842b2bf80ea9b75f5794e/artifacts
+deleted_time: 1749737795461
+end_time: 1749694123510
+entry_point_name: ''
+experiment_id: '365512184354000040'
+lifecycle_stage: deleted
+run_id: a9b6d95a6f0842b2bf80ea9b75f5794e
+run_name: ''
+run_uuid: a9b6d95a6f0842b2bf80ea9b75f5794e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749694123504
+status: 4
+tags: []
+user_id: abdelrahmanaltawil

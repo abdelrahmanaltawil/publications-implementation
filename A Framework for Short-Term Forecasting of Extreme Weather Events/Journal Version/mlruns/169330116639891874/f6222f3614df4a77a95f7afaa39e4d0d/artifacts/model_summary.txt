@@ -1,0 +1,24 @@
+Model: "sequential_8"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv1d_8 (Conv1D)           (None, 22, 64)            256       
+                                                                 
+ dropout_16 (Dropout)        (None, 22, 64)            0         
+                                                                 
+ conv1d_9 (Conv1D)           (None, 20, 64)            12352     
+                                                                 
+ global_max_pooling1d_4 (Glo  (None, 64)               0         
+ balMaxPooling1D)                                                
+                                                                 
+ dense_12 (Dense)            (None, 64)                4160      
+                                                                 
+ dropout_17 (Dropout)        (None, 64)                0         
+                                                                 
+ dense_13 (Dense)            (None, 4)                 260       
+                                                                 
+=================================================================
+Total params: 17,028
+Trainable params: 17,028
+Non-trainable params: 0
+_________________________________________________________________

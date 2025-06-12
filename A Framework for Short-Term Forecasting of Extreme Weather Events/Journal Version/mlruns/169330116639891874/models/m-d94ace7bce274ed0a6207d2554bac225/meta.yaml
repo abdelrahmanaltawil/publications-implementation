@@ -1,0 +1,11 @@
+artifact_location: /Users/abdelrahmanaltawil/Developer/GitHub/publications-implementation/A
+  Framework for Short-Term Forecasting of Extreme Weather Events/Journal Version/mlruns/169330116639891874/models/m-d94ace7bce274ed0a6207d2554bac225/artifacts
+creation_timestamp: 1749741505970
+experiment_id: '169330116639891874'
+last_updated_timestamp: 1749742529815
+model_id: m-d94ace7bce274ed0a6207d2554bac225
+model_type: null
+name: model
+source_run_id: 698b40e096c94797b3af29c5d0b44302
+status: 2
+status_message: null

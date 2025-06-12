@@ -1,0 +1,24 @@
+Model: "sequential_3"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv1d_4 (Conv1D)           (None, 30, 64)            256       
+                                                                 
+ dropout_6 (Dropout)         (None, 30, 64)            0         
+                                                                 
+ conv1d_5 (Conv1D)           (None, 28, 64)            12352     
+                                                                 
+ global_max_pooling1d_2 (Glo  (None, 64)               0         
+ balMaxPooling1D)                                                
+                                                                 
+ dense_5 (Dense)             (None, 64)                4160      
+                                                                 
+ dropout_7 (Dropout)         (None, 64)                0         
+                                                                 
+ dense_6 (Dense)             (None, 4)                 260       
+                                                                 
+=================================================================
+Total params: 17,028
+Trainable params: 17,028
+Non-trainable params: 0
+_________________________________________________________________
