@@ -1,0 +1,11 @@
+digest: 2c65ffa6
+name: dataset
+profile: '{"features_shape": [70066, 32], "features_size": 2242112, "features_nbytes":
+  17936896, "targets_shape": [70066, 4], "targets_size": 280264, "targets_nbytes":
+  2242112}'
+schema: '{"mlflow_tensorspec": {"features": "[{\"type\": \"tensor\", \"tensor-spec\":
+  {\"dtype\": \"int64\", \"shape\": [-1, 32]}}]", "targets": "[{\"type\": \"tensor\",
+  \"tensor-spec\": {\"dtype\": \"float64\", \"shape\": [-1, 4]}}]"}}'
+source: '{"tags": {"mlflow.user": "abdelrahmanaltawil", "mlflow.source.name": "/opt/anaconda3/lib/python3.11/site-packages/ipykernel_launcher.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code
