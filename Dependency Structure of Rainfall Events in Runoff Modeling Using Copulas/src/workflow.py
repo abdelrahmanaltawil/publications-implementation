@@ -94,6 +94,9 @@ if __name__ == "__main__":
                     rain_col=config["preprocessing"]["rain_col"],
                     IETD_threshold=config["preprocessing"]["ietd_threshold"]
                 )
+        
+        if events_data.empty:
+            continue
 
         # algorithm 
         copula_model = algorithm.fit_copulas(
@@ -103,8 +106,8 @@ if __name__ == "__main__":
                 )
         
         # Extract volume and duration exponential rates
-        config["physics_model"]["lambda_v"] = 1 / events_data["Volume (mm)"].to_numpy().mean()
-        config["physics_model"]["lambda_t"] = 1 / events_data["Duration (hrs)"].to_numpy().mean()
+        config["physics_model"]["lambda_v"] = float(1 / events_data["Volume (mm)"].to_numpy().mean())
+        config["physics_model"]["lambda_t"] = float(1 / events_data["Duration (hrs)"].to_numpy().mean())
 
         joint_densities = algorithm.get_copula_joint_density_function(
                     copulas=copula_model[1],
@@ -169,7 +172,7 @@ if __name__ == "__main__":
                 f"03_sensitivity__uncertainty_analysis/01_bootstrap_uncertainty.csv": bootstrap_results,
                 f"03_sensitivity__uncertainty_analysis/02_sensitivity_analysis.csv": sensitivity_results
             },
-            save_path = save_dir / f"{station['name']}-{station['id']}" 
+            save_path = save_dir / f"{station['name']} - {station['id']}" 
                         if "MULTI-STATIONS" in str(save_dir) else save_dir
         )
 
