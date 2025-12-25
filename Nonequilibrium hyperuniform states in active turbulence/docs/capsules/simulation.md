@@ -196,7 +196,7 @@ E(k=1)
 ## Example Run
 
 ```bash
-cd src/active_flow/simulation
+cd src/simulation
 python workflow.py
 ```
 

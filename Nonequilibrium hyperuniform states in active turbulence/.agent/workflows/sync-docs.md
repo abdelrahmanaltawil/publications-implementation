@@ -8,7 +8,7 @@ Use this workflow when making changes to code or documentation to ensure everyth
 
 ## When to Run This Workflow
 
-- After modifying any file in `src/active_flow/`
+- After modifying any file in `src/`
 - After changing parameters in `parameters/*.yml`
 - After updating any file in `docs/`
 
@@ -20,10 +20,10 @@ If you changed **code** in a module, update the corresponding doc:
 
 | Module Changed | Update This Doc |
 |----------------|-----------------|
-| `src/active_flow/simulation/` | `docs/capsules/simulation.md` |
-| `src/active_flow/steady_state_analysis/` | `docs/capsules/steady_state_analysis.md` |
-| `src/active_flow/extrema_search/` | `docs/capsules/extrema_search.md` |
-| `src/active_flow/hyperuniformity_analysis/` | `docs/capsules/hyperuniformity_analysis.md` |
+| `src/simulation/` | `docs/capsules/simulation.md` |
+| `src/steady_state_analysis/` | `docs/capsules/steady_state_analysis.md` |
+| `src/extrema_search/` | `docs/capsules/extrema_search.md` |
+| `src/hyperuniformity_analysis/` | `docs/capsules/hyperuniformity_analysis.md` |
 | `parameters/*.yml` | `docs/capsules/` (parameter tables) |
 | Mathematical model changes | `docs/theoretical_background.md` |
 

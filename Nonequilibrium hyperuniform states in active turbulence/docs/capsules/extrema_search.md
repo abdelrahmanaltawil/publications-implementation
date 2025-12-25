@@ -128,7 +128,7 @@ postprocessing:
 ## Running the Analysis
 
 ```bash
-cd src/active_flow/extrema_search
+cd src/extrema_search
 python workflow.py
 ```
 

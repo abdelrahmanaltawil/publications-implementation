@@ -64,11 +64,12 @@ flowchart LR
 ## Project Structure
 
 ```
-├── src/active_flow/              # Core simulation and analysis code
+├── src/                          # Core simulation and analysis code
 │   ├── simulation/               # PVC model solver (spectral method)
 │   ├── steady_state_analysis/    # Equilibrium detection
 │   ├── extrema_search/           # Vortex center identification
 │   └── hyperuniformity_analysis/ # Structure factor computation
+├── tests/                        # Pytest test suite
 ├── parameters/                   # YAML configuration files
 ├── notebooks/                    # Jupyter notebooks for exploration
 ├── docs/                         # Documentation
@@ -99,7 +100,7 @@ flowchart LR
 pip install -e .
 
 # Run complete analysis pipeline
-cd src/active_flow
+cd src
 python analysis_workflow.py
 ```
 

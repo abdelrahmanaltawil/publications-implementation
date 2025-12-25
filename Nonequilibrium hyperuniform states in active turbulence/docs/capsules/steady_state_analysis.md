@@ -9,10 +9,10 @@ After running a simulation, we need to identify when the flow has **reached stea
 Simulations start from random initial conditions. Early on, the flow is in a **transient phase** — it's still evolving toward its natural state. We only want to analyze data from the **steady state** where the flow has settled.
 
 ```
-                     ┌─────────────────────────
-                     │   Steady State
+                    ┌─────────────────────────
+                    │   Steady State
         Energy      │   (analyze this!)
-          │    ╱────┘
+          │    ─────┘
           │   ╱
           │  ╱
           │ ╱
@@ -88,7 +88,7 @@ postprocessing:
 ## Running the Analysis
 
 ```bash
-cd src/active_flow/steady_state_analysis
+cd src/steady_state_analysis
 python workflow.py
 ```
 
@@ -124,7 +124,7 @@ E(k) at different times to confirm stationarity:
    │ ╲
    │  ╲
    │   ╲────────────
-   │              ╲ 
+   │                ╲ 
    └─────────────────── k
 
    All curves should overlap in steady state!

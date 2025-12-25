@@ -157,7 +157,7 @@ The fitted exponent α can depend on the k-range used. We compute fits for sever
 ## Running the Analysis
 
 ```bash
-cd src/active_flow/hyperuniformity_analysis
+cd src/hyperuniformity_analysis
 python workflow.py
 ```
 

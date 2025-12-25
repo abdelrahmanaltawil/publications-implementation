@@ -55,13 +55,14 @@ Here's how the code is organized:
 
 ```
 📁 Nonequilibrium hyperuniform states in active turbulence/
-├── 📁 src/active_flow/           ← Main source code
+├── 📁 src/                       ← Main source code
 │   ├── 📄 analysis_workflow.py   ← Runs the full pipeline
 │   ├── 📁 simulation/            ← Stage 1
 │   ├── 📁 steady_state_analysis/ ← Stage 2
 │   ├── 📁 extrema_search/        ← Stage 3
 │   └── 📁 hyperuniformity_analysis/ ← Stage 4
 │
+├── 📁 tests/                     ← Pytest test suite (66 tests)
 ├── 📁 parameters/                ← Configuration files
 │   ├── 📄 simulation.yml
 │   ├── 📄 steady_state_analysis.yml
