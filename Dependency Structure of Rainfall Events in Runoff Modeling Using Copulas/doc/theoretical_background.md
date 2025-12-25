@@ -163,7 +163,7 @@ The copula approach typically yields **larger return levels** than the independe
 
 ## 9. References
 
-> Hassini, S., & Guo, Y. (2022). Dependency Structure of Rainfall Events in Runoff Modeling Using Copulas. *Journal of Hydrologic Engineering*, 27(3).
+> Hassini, S., & Guo, Y. (2022). Analytical Derivation of Urban Runoff-Volume Frequency Models. *Journal of Sustainable Water in the Built Environment*, 8(1), 04021022. https://doi.org/10.1061/JSWBAY.0000968
 
 > Nelsen, R. B. (2006). *An Introduction to Copulas*. Springer.
 
