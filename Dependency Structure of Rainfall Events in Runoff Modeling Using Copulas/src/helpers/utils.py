@@ -1,14 +1,8 @@
 # imports
 import logging
 import numpy as np
+import openturns as ot
 from scipy import integrate
-from statsmodels.distributions.copula.api import (
-    GaussianCopula,
-    StudentTCopula,
-    ClaytonCopula,
-    FrankCopula,
-    GumbelCopula,
-)
 
 logger = logging.getLogger(__name__)
 
@@ -16,12 +10,50 @@ def get_copula_families(copula_families: list) -> list:
     """Retrieve copula families from configuration."""
     logger.debug(f"Retrieving copula families from configuration: {copula_families}.")
 
+    def _corr_matrix_from_param(param=None, default=0.0):
+        if isinstance(param, ot.CorrelationMatrix):
+            return param
+        rho = default
+        if isinstance(param, dict):
+            rho = param.get("corr", rho)
+        elif isinstance(param, (list, tuple)):
+            if len(param) == 2:
+                rho = param[0]
+            else:
+                arr = np.asarray(param, dtype=float)
+                if arr.shape == (2, 2):
+                    corr = ot.CorrelationMatrix(2)
+                    corr[0, 1] = float(arr[0, 1])
+                    return corr
+                if arr.size == 1:
+                    rho = float(arr.ravel()[0])
+        elif param is not None:
+            rho = param
+        corr = ot.CorrelationMatrix(2)
+        corr[0, 1] = float(rho)
+        return corr
+
+    def _theta_from_param(param=None, default=1.0):
+        return float(default if param is None else param)
+
+    def _build_gaussian_copula(param=None):
+        return ot.NormalCopula(_corr_matrix_from_param(param))
+
+    def _build_student_copula(param=None):
+        df = 4.0
+        if isinstance(param, dict):
+            df = param.get("df", df)
+        elif isinstance(param, (list, tuple)) and len(param) == 2:
+            df = param[1]
+        corr = _corr_matrix_from_param(param)
+        return ot.StudentCopula(float(df), corr)
+
     copula_database = {
-        "Gaussian": lambda param=None: GaussianCopula(corr=param),
-        "t": lambda param=None: StudentTCopula(corr=param, df=4),
-        "Clayton": lambda param=None: ClaytonCopula(theta=param),
-        "Gumbel": lambda param=None: GumbelCopula(theta=param),
-        "Frank": lambda param=None: FrankCopula(theta=param)
+        "Gaussian": _build_gaussian_copula,
+        "t": _build_student_copula,
+        "Clayton": lambda param=None: ot.ClaytonCopula(_theta_from_param(param)),
+        "Gumbel": lambda param=None: ot.GumbelCopula(_theta_from_param(param, default=1.5)),
+        "Frank": lambda param=None: ot.FrankCopula(_theta_from_param(param))
     }
 
     # Select copula families based on config

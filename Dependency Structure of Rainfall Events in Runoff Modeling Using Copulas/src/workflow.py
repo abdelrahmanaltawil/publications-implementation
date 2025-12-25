@@ -187,4 +187,3 @@ if __name__ == "__main__":
                     )
                 
     logging.info(f"Experiment has ended successfully with elapsed time: {metadata['execution_duration_min']:.2f} min.")
-

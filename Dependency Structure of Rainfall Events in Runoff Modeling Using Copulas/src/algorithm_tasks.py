@@ -6,6 +6,7 @@ import warnings
 import numpy as np
 import pandas as pd
 import scipy.stats as stats
+import openturns as ot
 from scipy.integrate import IntegrationWarning
 
 
@@ -13,7 +14,103 @@ from scipy.integrate import IntegrationWarning
 import helpers.utils
 
 
-def fit_copulas(data: pd.DataFrame, corr_columns: list, copula_families: list) -> tuple:
+def _copula_sample(uv: np.ndarray) -> ot.Sample:
+    uv = np.asarray(uv, dtype=float)
+    if uv.ndim == 1:
+        uv = uv.reshape(1, -1)
+    return ot.Sample(uv.tolist())
+
+
+def _fit_copula(name: str, uv: np.ndarray):
+    sample = _copula_sample(uv)
+    factories = {
+        "Gaussian": ot.NormalCopulaFactory(),
+        "t": ot.StudentCopulaFactory(),
+        "Clayton": ot.ClaytonCopulaFactory(),
+        "Frank": ot.FrankCopulaFactory(),
+        "Gumbel": ot.GumbelCopulaFactory(),
+    }
+    if name not in factories:
+        raise ValueError(f"Unsupported copula family: {name}")
+
+    init = factories[name].build(sample)
+    try:
+        fit = ot.MaximumLikelihoodFactory(init).build(sample)
+    except Exception as exc:
+        logging.warning(f"OpenTURNS MLE failed for {name}; using Kendall-tau estimate. Error: {exc}")
+        fit = init
+
+    params = list(fit.getParameter())
+    desc = list(fit.getParameterDescription())
+    param_map = {str(desc[i]): float(params[i]) for i in range(len(params))}
+
+    if name == "t":
+        df = param_map.get("nu", params[0])
+        corr = float(np.asarray(fit.getCorrelation())[0, 1])
+        return fit, {"corr": float(corr), "df": float(df)}
+
+    if name == "Gaussian":
+        corr = float(np.asarray(fit.getCorrelation())[0, 1])
+        return fit, float(corr)
+
+    return fit, float(params[0])
+
+
+def _copula_loglik_ot(copula, uv: np.ndarray) -> float:
+    sample = _copula_sample(uv)
+    logpdf = np.asarray(copula.computeLogPDF(sample), dtype=float).reshape(-1)
+    return float(np.sum(logpdf))
+
+
+def _copula_pdf_ot(copula, uv: np.ndarray):
+    sample = _copula_sample(uv)
+    pdf = np.asarray(copula.computePDF(sample), dtype=float).reshape(-1)
+    if pdf.size == 1:
+        return float(pdf[0])
+    return pdf
+
+
+def _kendall_tau_ot(copula) -> float:
+    tau = np.asarray(copula.getKendallTau(), dtype=float)
+    return float(tau[0, 1])
+
+
+def _compute_tail_dependence(name: str, param) -> tuple:
+    family = name.lower()
+    if family in ("gaussian", "frank"):
+        return 0.0, 0.0
+
+    if family == "t":
+        if not isinstance(param, dict):
+            return np.nan, np.nan
+        rho = float(np.clip(param.get("corr", np.nan), -0.999, 0.999))
+        df = float(param.get("df", np.nan))
+        if not np.isfinite(rho) or not np.isfinite(df) or df <= 0:
+            return np.nan, np.nan
+        term = np.sqrt((df + 1.0) * (1.0 - rho) / (1.0 + rho))
+        lam = float(2.0 * stats.t.cdf(-term, df + 1.0))
+        return lam, lam
+
+    if family == "clayton":
+        theta = float(param)
+        if theta <= 0:
+            return 0.0, 0.0
+        return float(2.0 ** (-1.0 / theta)), 0.0
+
+    if family == "gumbel":
+        theta = float(param)
+        if theta <= 1.0:
+            return 0.0, 0.0
+        return 0.0, float(2.0 - 2.0 ** (1.0 / theta))
+
+    return np.nan, np.nan
+
+
+def fit_copulas(
+    data: pd.DataFrame,
+    corr_columns: list,
+    copula_families: list
+) -> tuple:
     """Fits multiple copula families to the data and computes fit metrics."""
 
     logging.info("Starting copula fitting process...")
@@ -41,32 +138,31 @@ def fit_copulas(data: pd.DataFrame, corr_columns: list, copula_families: list) -
     metrics = []
     n = len(uv)
 
-    for name, function in copulas.items():
+    for name in copulas:
         logging.info(f"Fitting copula family: {name}")
         
         # Fit copula
-        param = function().fit_corr_param(uv)
-        copula = function(param)
+        copula, param = _fit_copula(name, uv)
         fitted_copulas[name] = copula
 
         # Compute metrics
-        loglik = float(np.sum(np.log(copula.pdf(uv) + 1e-15)))
+        loglik = _copula_loglik_ot(copula, uv)
         k_params = 2 if name == "t" else 1
         aic = 2 * k_params - 2 * loglik
         bic = k_params * np.log(n) - 2 * loglik
-        taildep = copula.dependence_tail() if hasattr(copula, "dependence_tail") else (np.nan, np.nan)
+        taildep = _compute_tail_dependence(name, param)
 
         metrics.append(
             {
                 "Family": name,
-                "param": float(param),
-                "df": getattr(copula, "df", np.nan),
+                "param": float(param["corr"]) if isinstance(param, dict) else float(param),
+                "df": float(param["df"]) if isinstance(param, dict) else np.nan,
                 "LogLik": loglik,
                 "AIC": aic,
                 "BIC": bic,
                 "taildep.lower": float(taildep[0]) if taildep[0] is not np.nan else np.nan,
                 "taildep.upper": float(taildep[1]) if taildep[1] is not np.nan else np.nan,
-                "tau": float(copula.tau()),
+                "tau": _kendall_tau_ot(copula),
             }
         )
     metrics_df = pd.DataFrame(metrics)
@@ -98,7 +194,7 @@ def get_copula_joint_density_function(copulas: dict, lambda_v: float, lambda_t: 
 
             # Compute joint density using copula PDF and marginal PDFs
             uv = np.column_stack((F_V(v), F_T(t)))
-            return copula_instance.pdf(uv) * f_V(v) * f_T(t)
+            return _copula_pdf_ot(copula_instance, uv) * f_V(v) * f_T(t)
         return joint_density
 
     for name, copula in copulas.items():
@@ -272,9 +368,6 @@ def perform_bootstrap_uncertainty_analysis(
     bootstrap_return_levels = {family: [] for family in copula_families}
     bootstrap_data = []
     
-    # Get copula constructors
-    copulas = helpers.utils.get_copula_families(copula_families)
-    
     # Suppress logging for inner loop to avoid spam
     logger = logging.getLogger()
     prev_level = logger.level
@@ -301,12 +394,13 @@ def perform_bootstrap_uncertainty_analysis(
         )
         
         fitted_copulas_sample = {}
-        for name, function in copulas.items():
+        for name in copula_families:
             try:
                 # Fit parameter
-                param = function().fit_corr_param(uv_sample)
-                bootstrap_params[name].append(float(param))
-                fitted_copulas_sample[name] = function(param)
+                copula, param = _fit_copula(name, uv_sample)
+                param_value = float(param["corr"]) if isinstance(param, dict) else float(param)
+                bootstrap_params[name].append(param_value)
+                fitted_copulas_sample[name] = copula
             except Exception as e:
                 bootstrap_params[name].append(np.nan)
 
@@ -363,16 +457,27 @@ def perform_bootstrap_uncertainty_analysis(
     
     for name in copula_families:
         # Parameters
-        params = np.array(bootstrap_params[name])
-        results["parameters"][name] = {
-            "mean": np.nanmean(params),
-            "std": np.nanstd(params),
-            "CI_95": np.nanpercentile(params, [2.5, 97.5]) if len(params) > 0 else [np.nan, np.nan]
-        }
+        params = np.array(bootstrap_params[name], dtype=float)
+        finite_params = params[np.isfinite(params)]
+        if finite_params.size == 0:
+            logging.warning(f"All bootstrap parameter estimates are NaN for {name}.")
+            results["parameters"][name] = {
+                "mean": np.nan,
+                "std": np.nan,
+                "CI_95": [np.nan, np.nan],
+                "n_valid": 0
+            }
+        else:
+            results["parameters"][name] = {
+                "mean": float(np.nanmean(finite_params)),
+                "std": float(np.nanstd(finite_params)),
+                "CI_95": np.nanpercentile(finite_params, [2.5, 97.5]),
+                "n_valid": int(finite_params.size)
+            }
         
         # Return Levels
-        rls = np.array(bootstrap_return_levels[name]) # Shape: (n_boot, n_return_periods)
-        if rls.size > 0:
+        rls = np.array(bootstrap_return_levels[name], dtype=float) # Shape: (n_boot, n_return_periods)
+        if rls.size > 0 and np.isfinite(rls).any():
             results["return_levels"][name] = {
                 "mean": np.nanmean(rls, axis=0),
                 "std": np.nanstd(rls, axis=0),

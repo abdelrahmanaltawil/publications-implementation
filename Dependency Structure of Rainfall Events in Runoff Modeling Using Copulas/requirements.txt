@@ -1,0 +1,13 @@
+# Core dependencies for rainfall-runoff copula modeling
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+openturns>=1.21
+joblib>=1.2.0
+PyYAML>=6.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Testing dependencies
+pytest>=7.0.0
+pytest-cov>=4.0.0
