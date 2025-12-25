@@ -105,12 +105,12 @@ python analysis_workflow.py
 
 ---
 
-## License
-
-MIT License — see [LICENSE](LICENSE)
-
----
-
 ## Citation
 
 > R. Backofen, A.Y.A. Altawil, M. Salvalaglio, & A. Voigt, Nonequilibrium hyperuniform states in active turbulence, Proc. Natl. Acad. Sci. U.S.A. 121 (24) e2320719121, https://doi.org/10.1073/pnas.2320719121 (2024).
+
+---
+
+## License
+
+MIT License — see [LICENSE](LICENSE)
