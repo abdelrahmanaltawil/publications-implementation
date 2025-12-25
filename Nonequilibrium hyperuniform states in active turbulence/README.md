@@ -113,17 +113,4 @@ MIT License — see [LICENSE](LICENSE)
 
 ## Citation
 
-```bibtex
-@article{doi:10.1073/pnas.2320719121,
-author = {Rainer Backofen  and Abdelrahman Y. A. Altawil  and Marco Salvalaglio  and Axel Voigt},
-title = {Nonequilibrium hyperuniform states in active turbulence},
-journal = {Proceedings of the National Academy of Sciences},
-volume = {121},
-number = {24},
-pages = {e2320719121},
-year = {2024},
-doi = {10.1073/pnas.2320719121},
-URL = {https://www.pnas.org/doi/abs/10.1073/pnas.2320719121},
-eprint = {https://www.pnas.org/doi/pdf/10.1073/pnas.2320719121}
-}
-```
+> R. Backofen, A.Y.A. Altawil, M. Salvalaglio, & A. Voigt, Nonequilibrium hyperuniform states in active turbulence, Proc. Natl. Acad. Sci. U.S.A. 121 (24) e2320719121, https://doi.org/10.1073/pnas.2320719121 (2024).
