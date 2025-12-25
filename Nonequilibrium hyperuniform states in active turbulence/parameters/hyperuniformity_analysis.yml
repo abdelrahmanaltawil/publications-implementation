@@ -1,0 +1,35 @@
+
+# The following file control the parameters for steady state analysis workflow
+
+preprocessing:  
+  experiment_ID: AC-1022
+  download_path: ./data/extrema_search
+
+
+algorithm:
+  target: minima
+
+  k_interval: 
+  - 0
+  - 10
+
+  fitting_intervals_comaprsion:
+  -
+    - 0
+    - 5
+  -
+    - 0
+    - 10
+  -
+    - 0
+    - 15
+  -
+    - 0
+    - 20
+  -
+    - 0
+    - 25
+
+
+postprocessing:
+  save_path: ./data/hyperuniformity_analysis

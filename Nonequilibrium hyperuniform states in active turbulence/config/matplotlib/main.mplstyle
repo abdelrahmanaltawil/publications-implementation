@@ -1,0 +1,57 @@
+#### MATPLOTLIBRC FORMAT
+
+## ***************************************************************************
+## * FIGURE                                                                  *
+## ***************************************************************************
+## See https://matplotlib.org/api/figure_api.html#matplotlib.figure.Figure
+
+figure.figsize:         8, 8
+figure.dpi:             400
+figure.subplot.hspace:  0.2
+
+
+## ***************************************************************************
+## * AXES                                                                    *
+## ***************************************************************************
+## Following are default face and edge colors, default tick sizes,
+## default font sizes for tick labels, and so on.  See
+## https://matplotlib.org/api/axes_api.html#module-matplotlib.axes
+
+axes.titlesize :        20
+axes.labelsize :        18
+axes.prop_cycle:        cycler('color', 'black')
+axes.grid:              False
+axes.labelpad:          20
+
+
+## ***************************************************************************
+## * TICKS                                                                   *
+## ***************************************************************************
+## See https://matplotlib.org/api/axis_api.html#matplotlib.axis.Tick
+
+xtick.labelsize :       16
+ytick.labelsize :       16
+
+
+## ***************************************************************************
+## * FONT                                                                    *
+## ***************************************************************************
+## The font properties used by `text.Text`.
+## See https://matplotlib.org/api/font_manager_api.html for more information
+## on font properties.  The 6 font properties used for font matching are
+## given below with their default values.
+
+font.family:            STIXGeneral
+font.size:              18
+
+
+## ***************************************************************************
+## * LaTeX                                                                   *
+## ***************************************************************************
+## For more information on LaTeX properties, see
+## https://matplotlib.org/tutorials/text/usetex.html
+
+mathtext.fontset:       stix
+mathtext.rm:            Bitstream Vera Sans
+mathtext.it:            Bitstream Vera Sans:italic
+mathtext.bf:            Bitstream Vera Sans:bold

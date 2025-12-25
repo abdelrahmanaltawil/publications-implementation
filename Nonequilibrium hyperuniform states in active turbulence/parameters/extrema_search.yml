@@ -1,0 +1,23 @@
+
+# The following file control the parameters for steady state analysis workflow
+
+preprocessing:  
+  experiment_ID: AC-959
+  download_path: ./data/steady_state_analysis
+
+
+algorithm:
+  threshold:
+  neighbor_index:
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+  -
+
+postprocessing:
+  save_path: ./data/extrema_search

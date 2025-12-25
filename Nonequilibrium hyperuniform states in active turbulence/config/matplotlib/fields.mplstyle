@@ -1,0 +1,19 @@
+#### MATPLOTLIBRC FORMAT
+
+## ***************************************************************************
+## * IMAGES                                                                  *
+## ***************************************************************************
+
+image.aspect:          equal
+image.cmap:            coolwarm
+image.origin:          lower
+
+
+## ***************************************************************************
+## * AXES                                                                    *
+## ***************************************************************************
+## Following are default face and edge colors, default tick sizes,
+## default font sizes for tick labels, and so on.  See
+## https://matplotlib.org/api/axes_api.html#module-matplotlib.axes
+
+axes.prop_cycle:        cycler('color', '958E8E')

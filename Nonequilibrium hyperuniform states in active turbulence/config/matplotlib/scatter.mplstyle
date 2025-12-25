@@ -1,0 +1,60 @@
+#### MATPLOTLIBRC FORMAT
+
+## ***************************************************************************
+## * SCATTER PLOTS                                                           *
+## ***************************************************************************
+
+scatter.marker:         o
+# scatter.edgecolors:     cycler(color=['9DC0F0', '0A7CF6', '5151E3', 'A437F2', '7003BE', '000000'])
+
+
+## ***************************************************************************
+## * AXES                                                                    *
+## ***************************************************************************
+## Following are default face and edge colors, default tick sizes,
+## default font sizes for tick labels, and so on.  See
+## https://matplotlib.org/api/axes_api.html#module-matplotlib.axes
+
+axes.prop_cycle:        cycler(color=['9DC0F0', '0A7CF6', '5151E3', 'A437F2', '7003BE', '000000'])
+
+
+## ***************************************************************************
+## * LINES                                                                   *
+## ***************************************************************************
+## See https://matplotlib.org/api/artist_api.html#module-matplotlib.lines
+## for more information on line properties.
+
+lines.linewidth :       1
+lines.markersize :      7
+lines.marker:           x
+lines.linestyle:        :
+
+
+## ***************************************************************************
+## * TEXT                                                                    *
+## ***************************************************************************
+## The text properties used by `text.Text`.
+## See https://matplotlib.org/api/artist_api.html#module-matplotlib.text
+## for more information on text properties
+
+text.color:             black
+text.parse_math:        True
+
+
+## ***************************************************************************
+## * TICKS                                                                   *
+## ***************************************************************************
+## See https://matplotlib.org/api/axis_api.html#matplotlib.axis.Tick
+
+xtick.labelsize :       10
+ytick.labelsize :       10
+
+
+## ***************************************************************************
+## * LEGEND                                                                  *
+## ***************************************************************************
+
+legend.loc:             lower left
+legend.fontsize:        x-small
+legend.edgecolor:       000000
+

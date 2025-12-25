@@ -1,0 +1,23 @@
+[project]
+name = "active_flow"
+version = "1.0.0"
+description = "Simulation tool for active substances, the tool contains the functionality of hyperuniformity checking"
+license = "MIT"
+authors = [
+    {name ="Abdelrahman Y A Altawil", email = "abdelrhmanaltawil@outlook.com"}
+    ]
+dependencies = [
+    "pyspark[ml]",
+    "sklearn"
+]
+
+[project.optional-dependencies]
+dev = [
+    "tox",
+    "pre-commit",
+    "bump2version"
+]
+
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = ["flit_core >=3.2,<4"]
