@@ -146,9 +146,6 @@ python -m unittest tests.test_utils -v
 ---
 
 ## Citation
-
-If you use this code, please cite:
-
 > Hassini, S., & Guo, Y. (2022). Analytical Derivation of Urban Runoff-Volume Frequency Models. Journal of Sustainable Water in the Built Environment, 8(1), 04021022. https://doi.org/10.1061/JSWBAY.0000968
 
 ---
