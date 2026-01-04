@@ -1,0 +1,23 @@
+# Python Dependencies for EcoNex Optimization
+
+# Core scientific computing
+numpy>=1.21.0
+pandas>=1.3.0
+scipy>=1.7.0
+
+# Optimization
+pyomo>=6.4.0
+
+# Configuration
+pyyaml>=5.4.0
+
+# Visualization (for notebooks)
+matplotlib>=3.4.0
+seaborn>=0.11.0
+
+# Jupyter
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
+# Development
+pytest>=7.0.0
