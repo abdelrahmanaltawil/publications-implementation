@@ -68,29 +68,43 @@ $$
 $$
 
 #### **C. Inter-Layer Coupling Constraints (Generalized Arcs)**
-To model the interdependence of water and energy, we introduce linear coupling constraints based on **Generalized Network Flow** theory.
+To model the interdependence of water and energy, we introduce linear coupling constraints based on **Generalized Network Flow** theory. These constraints apply to every node $i$, but the coefficients ($k$, $\gamma$, etc.) are set to **zero** for nodes lacking the specific technology.
 
 1.  **Treatment Efficiency (Waste $\to$ Potable):**
     Transformation of wastewater to potable water incurs a loss factor $\eta$ (efficiency).
     $$
-    x_{\text{output}, t}^{P} = \eta \cdot x_{\text{input}, t}^{W}
+    x_{\text{output}, i, t}^{P} = \eta_{treat, i} \cdot x_{\text{input}, i, t}^{W} \quad \forall i \in N
     $$
 
 2.  **Energy Intensity (Energy $\to$ Transport):**
-    Movement of water (pumping) requires a proportional consumption of energy.
+    Movement of water (pumping) requires a proportional consumption of energy at the source node $i$. The constraint sums all outgoing water arcs.
     $$
-    x_{\text{pump}, t}^{E} \geq k \cdot x_{\text{pipe}, t}^{\text{Water}}
+    x_{\text{pump}, i, t}^{E} \geq k_{pump, i} \cdot \sum_{j \in N} (x_{ij, t}^{P} + x_{ij, t}^{W}) \quad \forall i \in N
     $$
-    *Where $k$ is the specific energy intensity (kWh/$m^3$).*
+    *Where $k_{pump, i}$ is the specific energy intensity (kWh/$m^3$) of the pump at node $i$.*
+
+3.  **Pressure Reducing Station (PRS) (Water $\to$ Energy):**
+    At gateway nodes, water entering from high-pressure external sources (Utility) releases energy.
+    $$
+    x_{\text{recover}, i, t}^{E} \leq \gamma_{prs, i} \cdot x_{\text{utility\_in}, i, t}^{P} \quad \forall i \in N
+    $$
+    *Where $\gamma_{prs, i}$ is the energy recovery factor (kWh/$m^3$) at node $i$.*
+
+4.  **Pumped Hydro Storage (PHS) Dynamics:**
+    PHS is modeled as flows between a Lower Reservoir Node ($i$) and an Upper Reservoir Node ($j$).
+    * **Charging (Pumping Up $i \to j$):** Consumes Energy at node $i$.
+        $$x_{pump\_up, i, t}^{E} = k_{phs, i} \cdot x_{i \to j, t}^{W}$$
+    * **Discharging (Turbining Down $j \to i$):** Generates Energy at node $i$.
+        $$x_{gen\_down, i, t}^{E} = \eta_{phs, i} \cdot x_{j \to i, t}^{W}$$
 
 ## 4. Optimization Objective
-The objective function seeks to minimize the total generalized cost of operation over the planning horizon. This includes direct economic costs (importing water/power) and can incorporate environmental costs (carbon intensity penalties).
+The objective function seeks to minimize the total generalized cost of operation over the planning horizon. This includes direct economic costs (importing water/power) and revenue offsets from generation.
 
 $$
-\text{Minimize } Z = \sum_{t \in T} \sum_{(i,j) \in A} \left( C_{ij,t}^{\text{grid}} \cdot x_{ij,t}^{E} + C_{ij,t}^{\text{water}} \cdot x_{ij,t}^{P} + C_{ij,t}^{\text{treat}} \cdot x_{ij,t}^{W} \right)
+\text{Minimize } Z = \sum_{t \in T} \sum_{(i,j) \in A} \left( C_{ij,t}^{\text{grid}} \cdot x_{ij,t}^{E} + C_{ij,t}^{\text{water}} \cdot x_{ij,t}^{P} + C_{ij,t}^{\text{treat}} \cdot x_{ij,t}^{W} \right) - \sum_{t \in T} \sum_{i \in N} R_{gen, i, t}
 $$
 
-By assigning negative costs (profits) to export arcs and zero cost to harvested rainfall, the solver naturally prioritizes decentralized, sustainable resources before resorting to centralized utility imports.
+*Where $R_{gen}$ represents revenue or cost-offsets achieved through PRS and PHS energy generation at node $i$.*
 
 ## 5. Justification of Approach
 This framework offers three distinct advantages for the proposed system:
