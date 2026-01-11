@@ -99,8 +99,11 @@ flowchart LR
 # Install
 pip install -e .
 
-# Run complete analysis pipeline
+# Run complete pipeline (simulation + analysis)
 cd src
+python all_workflow.py
+
+# Or run just the analysis on an existing simulation
 python analysis_workflow.py
 ```
 

@@ -1,6 +1,10 @@
 # env imports
 import yaml
 import pathlib
+import sys
+
+# Ensure project level imports
+sys.path.append(str(pathlib.Path(__file__).parent.parent))
 import neptune.new as neptune
 
 

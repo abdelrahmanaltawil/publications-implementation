@@ -10,9 +10,16 @@ import steady_state_analysis.helpers.check_snapshots as snapshots
 
 
 def parse_parameters(parameters: dict) -> None:
-    '''
-    Placeholder
-    '''
+    """
+    Parse and validate the steady state analysis parameters.
+
+    Extracts and formats snapshots locations from the parameters dictionary.
+
+    Parameters
+    ----------
+    parameters : dict
+        Configuration dictionary containing postprocessing settings.
+    """
 
     parameters["postprocessing"]["snapshots_locations"] = snapshots.parse_snapshots(
         snapshots_locations= parameters["postprocessing"]["snapshots_locations"]
@@ -20,9 +27,24 @@ def parse_parameters(parameters: dict) -> None:
 
 
 def fetch(experiment_file: object, temp_download_path: pathlib.Path) -> np.ndarray or pd.DataFrame:
-    '''
-    Placeholder
-    '''
+    """
+    Download and refine data from a Neptune experiment.
+
+    Handles downloading, unzipping (if necessary), and loading of arrays or 
+    monitoring tables from a Neptune run object.
+
+    Parameters
+    ----------
+    experiment_file : object
+        Neptune file object pointing to the remote data.
+    temp_download_path : pathlib.Path
+        Local path where data should be downloaded.
+    
+    Returns
+    -------
+    np.ndarray, dict, or pd.DataFrame
+        Loaded data structures (arrays/snapshots or monitoring table).
+    """
 
     experiment_file.download(destination= temp_download_path)
 
@@ -50,9 +72,14 @@ def fetch(experiment_file: object, temp_download_path: pathlib.Path) -> np.ndarr
 
     
 def unzip_delete_file(file_path: pathlib.Path) -> None:
-    '''
-    Placeholder
-    '''
+    """
+    Extract a zip archive and immediately delete the archive file.
+
+    Parameters
+    ----------
+    file_path : pathlib.Path
+        Path to the zip file to unpack.
+    """
 
     # unzip
     with zipfile.ZipFile(file_path, 'r') as zip_file:
@@ -64,9 +91,26 @@ def unzip_delete_file(file_path: pathlib.Path) -> None:
 
 
 def load_arrays(read_path: pathlib.Path, snapshots_locations: list[str]) -> tuple[np.ndarray]:
-    '''
-    Placeholder
-    '''
+    """
+    Load operator arrays and vorticity snapshots from disk.
+
+    Reads standard operators and specific snapshot iterations. Registers
+    loaded data into the global register.
+
+    Parameters
+    ----------
+    read_path : pathlib.Path
+        Directory containing the saved .npy files.
+    snapshots_locations : list[str]
+        List of iteration numbers (as strings or ints) to load snapshots for.
+
+    Returns
+    -------
+    operators : dict
+        Dictionary of operator arrays (e.g. k_vectors).
+    snapshots : dict
+        Dictionary of vorticity snapshot arrays keyed by filename stem.
+    """
 
     operators={}
     for path in read_path.glob("*.npy"):
@@ -141,9 +185,19 @@ def load_arrays(read_path: pathlib.Path, snapshots_locations: list[str]) -> tupl
 
 
 def load_table(read_path: pathlib.Path) -> pd.DataFrame:
-    '''
-    Placeholder
-    '''
+    """
+    Load the monitoring table from a CSV file.
+
+    Parameters
+    ----------
+    read_path : pathlib.Path
+        Path to the CSV file.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame containing the monitoring data.
+    """
 
     monitor_table = pd.read_csv(read_path)
 

@@ -1,12 +1,16 @@
 # env imports
 import yaml
 import pathlib
+import sys
+
+# Ensure project level imports
+sys.path.append(str(pathlib.Path(__file__).parent.parent))
 import numpy as np
 import neptune.new as neptune
 
 # local imports
-import algorithm_tasks as task
-import postprocessing
+import simulation.algorithm_tasks as task
+import simulation.postprocessing as postprocessing
 
 
 def run(parameters: dict) -> str:
@@ -48,6 +52,8 @@ def run(parameters: dict) -> str:
         source_files=["./src/simulation"],
         tags=["reference simulation"]
         )
+    run_id = run["sys/id"].fetch()
+
 
     # Preprocessing
     run["parameters"] = parameters["algorithm"]
@@ -127,6 +133,8 @@ def run(parameters: dict) -> str:
     run["plots/convergence"].upload(figure)
     
     run.stop()
+
+    return run_id
 
 
 if __name__ == "__main__":

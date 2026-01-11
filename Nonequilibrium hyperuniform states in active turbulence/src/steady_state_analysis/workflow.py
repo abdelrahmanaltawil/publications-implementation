@@ -1,6 +1,10 @@
 # env imports
 import yaml
 import pathlib
+import sys
+
+# Ensure project level imports
+sys.path.append(str(pathlib.Path(__file__).parent.parent))
 import numpy as np
 import neptune.new as neptune
 
@@ -8,8 +12,6 @@ import neptune.new as neptune
 import steady_state_analysis.preprocessing as preprocessing
 import steady_state_analysis.helpers.register as re
 import steady_state_analysis.postprocessing as postprocessing
-
-
 
 
 def run(parameters: dict) -> None:

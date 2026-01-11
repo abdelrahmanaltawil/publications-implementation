@@ -7,28 +7,33 @@ import sys
 sys.path.append(str(pathlib.Path(__file__).parent))
 
 # local imports
+import simulation.workflow as simulation_workflow
 import steady_state_analysis.workflow as steady_state_analysis_workflow
 import extrema_search.workflow as extrema_search_workflow
 import hyperuniformity_analysis.workflow as hyperuniformity_analysis_workflow
 
 
-def run(simulation_experiment_id: str) -> None:
+def run(simulation_parameters: dict) -> None:
     """
-    Run the complete analysis pipeline for a simulation experiment.
+    Run the complete simulation + analysis pipeline.
     
-    Executes the three post-simulation analysis stages in sequence:
-    1. Steady State Analysis - Identifies equilibrated snapshots
-    2. Extrema Search - Finds vortex centers (minima/maxima)
-    3. Hyperuniformity Analysis - Computes structure factor S(k)
+    Executes the simulation and the three post-simulation analysis stages in sequence:
+    1. Simulation - Runs the active flow simulation
+    2. Steady State Analysis - Identifies equilibrated snapshots
+    3. Extrema Search - Finds vortex centers (minima/maxima)
+    4. Hyperuniformity Analysis - Computes structure factor S(k)
     
     Each stage reads from the previous stage's Neptune.ai run and 
     creates a new run with its results.
     
     Parameters
     ----------
-    simulation_experiment_id : str
-        Neptune.ai run ID from a completed simulation (e.g., "AC-895").
-        This is used as the starting point for the analysis chain.
+    simulation_parameters : dict
+        Configuration dictionary from simulation.yml containing:
+        - algorithm.discretization: Grid and time-stepping parameters
+        - algorithm.physical: PVC model parameters
+        - preprocessing: Seed and monitoring settings
+        - postprocessing: Save path and quantities to save
     
     Returns
     -------
@@ -37,9 +42,13 @@ def run(simulation_experiment_id: str) -> None:
     
     Example
     -------
-    >>> run(simulation_experiment_id="AC-895")
-    # Runs: Steady State → Extrema Search → Hyperuniformity
+    >>> run(simulation_parameters=simulation_parameters)
+    # Runs: Simulation → Steady State → Extrema Search → Hyperuniformity
     """
+
+    simulation_experiment_id = simulation_workflow.run(
+        parameters= simulation_parameters
+        )
 
     with open(pathlib.Path("./parameters/steady_state_analysis.yml"), "r") as file:
         parameters = yaml.safe_load(file)
@@ -70,6 +79,9 @@ def run(simulation_experiment_id: str) -> None:
 
 if __name__ == "__main__":
 
+    with open(pathlib.Path("./parameters/simulation.yml"), "r") as file:
+        simulation_parameters = yaml.safe_load(file)
+
     run(
-        simulation_experiment_id= "AC-895"
+        simulation_parameters= simulation_parameters
         )

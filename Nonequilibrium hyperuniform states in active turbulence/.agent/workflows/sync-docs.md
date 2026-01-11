@@ -24,6 +24,8 @@ If you changed **code** in a module, update the corresponding doc:
 | `src/steady_state_analysis/` | `docs/capsules/steady_state_analysis.md` |
 | `src/extrema_search/` | `docs/capsules/extrema_search.md` |
 | `src/hyperuniformity_analysis/` | `docs/capsules/hyperuniformity_analysis.md` |
+| `src/all_workflow.py` | `README.md` (Quick Start section) |
+| `src/analysis_workflow.py` | `README.md` (Quick Start section) |
 | `parameters/*.yml` | `docs/capsules/` (parameter tables) |
 | Mathematical model changes | `docs/theoretical_background.md` |
 
