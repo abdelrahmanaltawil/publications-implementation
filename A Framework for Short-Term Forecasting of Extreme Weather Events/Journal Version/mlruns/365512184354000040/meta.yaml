@@ -1,4 +1,0 @@
-artifact_location: ./mlruns/365512184354000040
-experiment_id: '365512184354000040'
-lifecycle_stage: active
-name: RF-Rainfall-Prediction

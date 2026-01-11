@@ -1,9 +1,0 @@
-digest: 4c1537c5
-name: dataset
-profile: '{"features_shape": [8759, 32], "features_size": 280288, "features_nbytes":
-  2242304}'
-schema: '{"mlflow_tensorspec": {"features": "[{\"type\": \"tensor\", \"tensor-spec\":
-  {\"dtype\": \"int64\", \"shape\": [-1, 32]}}]", "targets": null}}'
-source: '{"tags": {"mlflow.user": "abdelrahmanaltawil", "mlflow.source.name": "/Users/abdelrahmanaltawil/miniforge3/envs/py310_env/lib/python3.10/site-packages/ipykernel_launcher.py",
-  "mlflow.source.type": "LOCAL"}}'
-source_type: code

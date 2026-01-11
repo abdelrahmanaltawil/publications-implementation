@@ -1,0 +1,10 @@
+jupyter
+ipykernel
+mlflow
+numpy
+pandas
+seaborn
+matplotlib
+statsmodels
+scikit-learn
+tensorflow
