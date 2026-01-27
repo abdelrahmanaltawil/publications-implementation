@@ -1,4 +1,4 @@
-# Optimization Module
+# Algorithm Tasks Module (algorithm_tasks.py)
 
 ## Purpose
 Pyomo model construction for the Time-Expanded, Multi-Layer Network Flow optimization.
@@ -40,14 +40,15 @@ Construct the Pyomo ConcreteModel from preprocessed data.
 
 ---
 
-### `solve_model(model: pyo.ConcreteModel, solver: str = 'glpk') -> pyo.SolverResults`
+### `solve_model(model: pyo.ConcreteModel, solver: str = 'glpk') -> tuple`
 Solve the optimization model.
 
 **Parameters:**
 - `model`: Pyomo ConcreteModel.
 - `solver`: Solver name (glpk, cbc, gurobi, cplex).
+- `tee`: Print solver output.
 
-**Returns:** Pyomo SolverResults object.
+**Returns:** Tuple (model, results).
 
 ---
 

@@ -8,6 +8,9 @@ scipy>=1.7.0
 # Optimization
 pyomo>=6.4.0
 
+# Water Network Simulation
+wntr>=1.0.0
+
 # Configuration
 pyyaml>=5.4.0
 
