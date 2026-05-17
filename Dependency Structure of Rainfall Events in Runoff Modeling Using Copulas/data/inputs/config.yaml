@@ -1,44 +1,13 @@
 database:
   db_path: "./data/inputs/phd_research.db"
   table_name: "CANADA_climate_data"
-  stations_list: 
-    - id: "6153301"
-      name: "HAMILTON RBG CS"
-    - id: "6139525"
-      name: "WINDSOR A"
-    - id: "6144475"
-      name: "LONDON A"
-    - id: "6106000"
-      name: "OTTAWA MACDONALD-CARTIER INT'L A"
-    - id: "6117700"
-      name: "BARRIE-ORO"
-    - id: "6068150"
-      name: "SUDBURY A"
-    - id: "6048261"
-      name: "THUNDER BAY A"
-    - id: "6078285"
-      name: "TIMMINS VICTOR POWER A"
-    - id: "6034076"
-      name: "KENORA A"
-    - id: "6075425"
-      name: "MOOSONEE UA"
-    - id: "6010735"
-      name: "BIG TROUT LAKE"
+  stations_meta_data_path: "./data/inputs/stations_meta_data.csv"
 
 preprocessing:
   time_col: "datetime"
   rain_col: "value"
   winter_months: [11, 12, 1, 2, 3, 4]
   remove_outliers: false
-  ietd_threshold: 6
-
-physics_model:
-  h: 0.447
-  Sdi: 0.0492125
-  Sil: 5.199874275
-  fc: 0.36
-  Sm: 4.898550725
-  ts: 13.60708535
 
 integration:
   method: "ADAPTIVE_2D_QUADRATURE"  # Options: "ADAPTIVE_2D_QUADRATURE", "MONTE_CARLO"
@@ -56,7 +25,7 @@ analysis:
 
 sensitivity_analysis:
   station: ["6153301"]
-  n_bootstrap: 200
+  n_bootstrap: 5
   parameter_range: 
     "Gaussian": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
     "t": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]

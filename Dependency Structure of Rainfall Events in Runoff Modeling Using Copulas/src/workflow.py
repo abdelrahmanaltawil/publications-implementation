@@ -8,9 +8,20 @@ import datetime
 import platform
 import socket
 import getpass
+import pandas as pd
 
 # local imports
 import preprocessing, algorithm_tasks as algorithm, postprocessing
+
+
+PHYSICS_COLUMNS = {
+    "Imperviousness_h_fraction": "h",
+    "Imp_Depression_Storage_Sdi_mm": "Sdi",
+    "Pervious_Init_Loss_Sil_mm": "Sil",
+    "Ult_Infiltration_fc_mm_hr": "fc",
+    "Max_Infiltration_Sm_mm": "Sm",
+    "Calc_Time_to_Sat_ts_hr": "ts",
+}
 
 
 # Configure logging
@@ -59,10 +70,13 @@ if __name__ == "__main__":
     with open("data/inputs/config.yaml", "r") as f:
         config = yaml.safe_load(f)
 
+    stations_df = pd.read_csv(config["database"]["stations_meta_data_path"], dtype={"Station_ID": str})
+    stations = stations_df.rename(columns={"Station_ID": "id", "Station_Name": "name"}).to_dict("records")
+
     # preprocessing
     save_dir = preprocessing.create_save_dir(
-        base_dir=config["postprocessing"]["save_path"], 
-        stations=config["database"]["stations_list"]
+        base_dir=config["postprocessing"]["save_path"],
+        stations=stations
     )
 
     # logging and metadata collection
@@ -70,9 +84,12 @@ if __name__ == "__main__":
     metadata = collect_run_metadata(save_path=save_dir)
 
 
-    for station in config["database"]["stations_list"]:
+    for station in stations:
 
         logging.info(f"Starting analysis for station: {station['name']} ({station['id']})")
+
+        physical_params = {param: float(station[col]) for col, param in PHYSICS_COLUMNS.items()}
+        ietd = int(station["IETD_Used_hr"])
 
         rainfall_data = preprocessing.load_data(
                     db_path=config["database"]["db_path"],
@@ -92,39 +109,39 @@ if __name__ == "__main__":
                     data=cleaned_rainfall_data,
                     time_col=config["preprocessing"]["time_col"],
                     rain_col=config["preprocessing"]["rain_col"],
-                    IETD_threshold=config["preprocessing"]["ietd_threshold"]
+                    IETD_threshold=ietd
                 )
-        
+
         if events_data.empty:
             continue
 
-        # algorithm 
+        # algorithm
         copula_model = algorithm.fit_copulas(
                     data=events_data,
                     corr_columns=["Volume (mm)", "Duration (hrs)"],
                     copula_families=config["copula_families"]
                 )
-        
-        # Extract volume and duration exponential rates
-        config["physics_model"]["lambda_v"] = float(1 / events_data["Volume (mm)"].to_numpy().mean())
-        config["physics_model"]["lambda_t"] = float(1 / events_data["Duration (hrs)"].to_numpy().mean())
+
+        # Derived exponential rates from observed events
+        physical_params["lambda_v"] = float(1 / events_data["Volume (mm)"].to_numpy().mean())
+        physical_params["lambda_t"] = float(1 / events_data["Duration (hrs)"].to_numpy().mean())
 
         joint_densities = algorithm.get_copula_joint_density_function(
                     copulas=copula_model[1],
-                    lambda_v=config["physics_model"]["lambda_v"],
-                    lambda_t=config["physics_model"]["lambda_t"]
+                    lambda_v=physical_params["lambda_v"],
+                    lambda_t=physical_params["lambda_t"]
                 )
 
         cdf_results = algorithm.compute_cdf(
                     joint_densities=joint_densities,
-                    physical_params=config["physics_model"],
+                    physical_params=physical_params,
                     analysis_params=config["analysis"],
                     integration_method=config["integration"]["method"],
                     **config["integration"]["kwargs"]
                 )
-        
+
         cdf_results["Analytical"] = algorithm.runoff_volume_cdf_closed_form(
-                    physical_params=config["physics_model"],
+                    physical_params=physical_params,
                     analysis_params=config["analysis"]
                 )
 
@@ -132,24 +149,24 @@ if __name__ == "__main__":
                     cdf_results=cdf_results,
                     analysis_params=config["analysis"]
                 )
-        
+
 
         if station["id"] in config["sensitivity_analysis"]["station"]:
             bootstrap_results = algorithm.perform_bootstrap_uncertainty_analysis(
                         data=events_data,
                         corr_columns=["Volume (mm)", "Duration (hrs)"],
                         copula_families=config["copula_families"],
-                        physical_params=config["physics_model"],
+                        physical_params=physical_params,
                         analysis_params=config["analysis"],
                         integration_method=config["integration"]["method"],
                         integration_kwargs=config["integration"]["kwargs"],
                         n_bootstrap=config["sensitivity_analysis"]["n_bootstrap"]
                         )
-            
+
             sensitivity_results = algorithm.perform_sensitivity_analysis(
                         copula_families=config["copula_families"],
                         parameter_range=config["sensitivity_analysis"]["parameter_range"],
-                        physical_params=config["physics_model"],
+                        physical_params=physical_params,
                         analysis_params=config["analysis"],
                         integration_method=config["integration"]["method"],
                         integration_kwargs=config["integration"]["kwargs"]
