@@ -1,0 +1,43 @@
+# --- Font and General Settings ---
+font.family : serif
+font.serif : Times New Roman
+font.size : 16
+text.usetex : True
+savefig.dpi : 600
+savefig.format : pdf
+
+# --- Legend Settings ---
+legend.frameon : True
+legend.fancybox : False
+legend.edgecolor : black
+legend.framealpha : 1
+
+# --- Tick Direction and Visibility (All Sides) ---
+xtick.direction : in
+ytick.direction : in
+xtick.top : True
+xtick.bottom : True
+ytick.left : True
+ytick.right : True
+
+# --- Major Ticks (Bold) ---
+xtick.major.size : 5
+ytick.major.size : 5
+xtick.major.width : 1.5
+ytick.major.width : 1.5
+
+# --- Minor Ticks (Visible but not Bold) ---
+xtick.minor.visible : True
+ytick.minor.visible : True
+xtick.minor.size : 3
+ytick.minor.size : 3
+xtick.minor.width : 0.6
+ytick.minor.width : 0.6
+
+# --- The "Box" (Spines) Settings ---
+axes.linewidth : 1
+
+
+# --- Color Cycle ---
+# Sets the default sequence of colors for plots
+axes.prop_cycle : cycler('color', ['000000', 'B4B4B4', '7B72E2', '73D89D', 'F77D7D', 'D7DC5E'])

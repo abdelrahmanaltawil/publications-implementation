@@ -1,0 +1,27 @@
+Clear
+
+! A simple 2-bus OpenDSS circuit to test the simulation workflow
+
+New Circuit.SimpleCircuit
+
+! Define the main voltage source (slack bus)
+~ basekv=115 pu=1.00 phases=3 bus1=SourceBus
+
+! Define a simple line code
+New Linecode.SimpleLine nphases=3 r1=0.063 x1=0.09 r0=0.19 x0=0.27 units=kft
+
+! Connect a line from SourceBus to LoadBus
+New Line.L1 phases=3 bus1=SourceBus bus2=LoadBus linecode=SimpleLine length=1 units=kft
+
+! Define a 24-hour Loadshape (example generic residential curve)
+New Loadshape.DayAhead npts=24 interval=1 mult=[0.4 0.35 0.35 0.4 0.5 0.7 0.85 0.9 0.9 0.85 0.8 0.75 0.75 0.8 0.85 0.95 1.0 0.95 0.9 0.85 0.8 0.7 0.6 0.5]
+
+! Define a load at LoadBus
+New Load.Load1 phases=3 bus1=LoadBus kv=115 kw=1000 pf=0.9 daily=DayAhead
+
+! Set voltage bases
+Set Voltagebases=[115]
+Calcvoltagebases
+
+! Set to daily mode, the Python script will execute the step loop
+Set mode=daily stepsize=1h number=1

@@ -1,0 +1,63 @@
+# EcoNex Unified Configuration
+# Controls which sub-models are built and solved.
+# Set water/energy/nexus flags to compose the pipeline.
+
+# ── Sub-model flags ────────────────────────────────────────────────────────────
+run_water:  true    # Build water MILP (W1–W24)
+run_energy: false   # Build energy MILP (E1–E13)  — set true once energy data is ready
+run_nexus:  false   # Couple water + energy into one MILP — requires both flags above
+
+# ── Time horizon ───────────────────────────────────────────────────────────────
+T: 24           # Number of hourly time steps
+
+# ── Output ─────────────────────────────────────────────────────────────────────
+paths:
+  output_dir: data/results
+
+# ── Water network ──────────────────────────────────────────────────────────────
+water:
+  network: data/inputs/system_config/water/GNET.inp
+
+# ── Energy network ─────────────────────────────────────────────────────────────
+energy:
+  network:           data/inputs/config/system_config/energy/master.dss
+  nominal_voltage:   11.0    # kV (line-to-line)
+  base_power:        1000.0  # kVA
+  voltage_tolerance: 0.10    # ±10 % per-unit (E9)
+  n_current_segments: 5      # PWL segments for |I|² (E12)
+
+  technologies:
+    pv:
+      capacity_kw: 100.0
+      irradiance_profile: []   # 24 values in [0, 1] — leave empty to use zeros
+
+    storage:
+      capacity_kwh:        200.0
+      charge_efficiency:   0.95
+      discharge_efficiency: 0.95
+      max_charge_kw:       50.0
+      max_discharge_kw:    50.0
+      initial_soc_fraction: 0.5
+
+  cost:
+    grid_import_tariff: []   # 24 hourly values [$/kWh] — leave empty for flat 0.10
+    grid_export_tariff: 0.0
+
+# ── Solver ─────────────────────────────────────────────────────────────────────
+solver:
+  name:    gurobi   # glpk | gurobi | cbc | cplex
+  timeout: 300      # seconds
+  verbose: true
+
+# ── Simulation (pre/post-optimisation validation) ──────────────────────────────
+simulation:
+  mode: daily   # snap | daily | duty
+
+# ── Metrics ────────────────────────────────────────────────────────────────────
+metrics:
+  min_pressure_threshold: 20.0   # metres — water service threshold
+  voltage_tolerance:       0.10  # per-unit — energy voltage band
+
+# ── Logging ────────────────────────────────────────────────────────────────────
+logging:
+  level: INFO

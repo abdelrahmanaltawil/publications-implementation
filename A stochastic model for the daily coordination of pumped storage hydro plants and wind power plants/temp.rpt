@@ -1,0 +1,104 @@
+  Page 1                                    Sun May 17 18:17:05 2026
+
+  ******************************************************************
+  *                           E P A N E T                          *
+  *                   Hydraulic and Water Quality                  *
+  *                   Analysis for Pipe Networks                   *
+  *                         Version 2.2                            *
+  ******************************************************************
+  
+  Analysis begun Sun May 17 18:17:05 2026
+
+   
+  Hydraulic Status:
+  -----------------------------------------------------------------------
+     0:00:00: Balanced after 5 trials
+     0:00:00: Reservoir River is emptying
+     0:00:00: Reservoir Lake is closed
+     0:00:00: Tank 1 is filling at 13.10 ft
+     0:00:00: Tank 2 is filling at 23.50 ft
+     0:00:00: Tank 3 is filling at 29.00 ft
+   
+     1:00:00: Pump 10 changed by timer control
+     1:00:00: Balanced after 7 trials
+     1:00:00: Reservoir Lake is emptying
+     1:00:00: Pump 10 changed from closed to open
+   
+     1:35:08: Pump 335 changed by Tank 1 control
+     1:35:08: Pipe 330 changed by Tank 1 control
+     1:35:08: Balanced after 4 trials
+     1:35:08: Pipe 330 changed from closed to open
+     1:35:08: Pump 335 changed from open to closed
+   
+     2:00:00: Balanced after 3 trials
+   
+     3:00:00: Balanced after 2 trials
+   
+     3:52:52: Balanced after 6 trials
+     3:52:52: Tank 3 is closed at 35.50 ft
+     3:52:52: Pipe 20 changed from open to temporarily closed
+   
+     4:00:00: Balanced after 3 trials
+   
+     5:00:00: Balanced after 3 trials
+   
+     5:09:34: Balanced after 6 trials
+     5:09:34: Tank 1 is closed at 32.10 ft
+     5:09:34: Pipe 40 changed from open to temporarily closed
+   
+     5:17:22: Balanced after 5 trials
+     5:17:22: Tank 2 is closed at 40.30 ft
+     5:17:22: Pipe 50 changed from open to temporarily closed
+   
+     6:00:00: Balanced after 3 trials
+   
+     7:00:00: Balanced after 3 trials
+   
+     8:00:00: Balanced after 3 trials
+   
+     9:00:00: Balanced after 3 trials
+   
+    10:00:00: Balanced after 2 trials
+   
+    11:00:00: Balanced after 3 trials
+   
+    12:00:00: Balanced after 2 trials
+   
+    13:00:00: Balanced after 3 trials
+   
+    14:00:00: Balanced after 3 trials
+   
+    15:00:00: Pump 10 changed by timer control
+    15:00:00: Balanced after 4 trials
+    15:00:00: Reservoir Lake is closed
+    15:00:00: Pump 10 changed from open to closed
+   
+    16:00:00: Balanced after 2 trials
+   
+    17:00:00: Balanced after 2 trials
+   
+    18:00:00: Balanced after 2 trials
+   
+    19:00:00: Balanced after 1 trials
+   
+    20:00:00: Balanced after 2 trials
+   
+    21:00:00: Balanced after 2 trials
+   
+    22:00:00: Balanced after 2 trials
+   
+    23:00:00: Balanced after 2 trials
+   
+    24:00:00: Balanced after 2 trials
+   
+  Water Quality Mass Balance (mg)
+  ================================
+  Initial Mass:       0.00000e+00
+  Mass Inflow:        0.00000e+00
+  Mass Outflow:       0.00000e+00
+  Mass Reacted:       0.00000e+00
+  Final Mass:         0.00000e+00
+  Mass Ratio:         1.00000
+  ================================
+
+  Analysis ended Sun May 17 18:17:05 2026
