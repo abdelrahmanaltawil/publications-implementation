@@ -52,3 +52,6 @@ htmlcov/
 
 # Results (large, reproducible — untrack if needed)
 # data/results/
+
+
+milpnet-master/*
