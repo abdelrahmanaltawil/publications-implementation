@@ -1,0 +1,77 @@
+database:
+  db_path: "./data/inputs/phd_research.db"
+  table_name: "CANADA_climate_data"
+  stations_list: 
+    - id: "6153301"
+      name: "HAMILTON RBG CS"
+    - id: "6139525"
+      name: "WINDSOR A"
+    - id: "6144475"
+      name: "LONDON A"
+    - id: "6106000"
+      name: "OTTAWA MACDONALD-CARTIER INT'L A"
+    - id: "6117700"
+      name: "BARRIE-ORO"
+    - id: "6068150"
+      name: "SUDBURY A"
+    - id: "6048261"
+      name: "THUNDER BAY A"
+    - id: "6078285"
+      name: "TIMMINS VICTOR POWER A"
+    - id: "6034076"
+      name: "KENORA A"
+    - id: "6075425"
+      name: "MOOSONEE UA"
+    - id: "6010735"
+      name: "BIG TROUT LAKE"
+
+preprocessing:
+  time_col: "datetime"
+  rain_col: "value"
+  winter_months: [11, 12, 1, 2, 3, 4]
+  remove_outliers: false
+  ietd_threshold: 6
+
+physics_model:
+  h: 0.447
+  Sdi: 0.0492125
+  Sil: 5.199874275
+  fc: 0.36
+  Sm: 4.898550725
+  ts: 13.60708535
+
+integration:
+  method: "ADAPTIVE_2D_QUADRATURE"  # Options: "ADAPTIVE_2D_QUADRATURE", "MONTE_CARLO"
+  kwargs:
+    epsabs: 1.0e-5      # Optional, only for adaptive quadrature 
+    epsrel: 1.0e-5      # Optional, only for adaptive quadrature
+    # n_samples: 200000   # Mandatory, only for Monte Carlo
+    # random_state: 42    # Mandatory, only for Monte Carlo
+
+analysis:
+  v0_limit: 100
+  v0_range_max: 120
+  return_periods: [2, 5, 10, 25, 50, 100]
+  events_per_year: 60
+
+sensitivity_analysis:
+  station: ["6153301"]
+  n_bootstrap: 200
+  parameter_range: 
+    "Gaussian": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+    "t": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+    "Clayton": [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5]
+    "Frank": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    "Gumbel": [1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
+
+
+postprocessing:
+  save_path: "./data/results"
+  save_metadata: true
+
+copula_families:
+  - "Gaussian"
+  - "t"
+  - "Clayton"
+  - "Frank"
+  - "Gumbel"
